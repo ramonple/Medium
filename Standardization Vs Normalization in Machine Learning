@@ -3,7 +3,7 @@ Standardization typically means rescales data to have a mean of 0 and a standard
 
 
 
----------- Standardization
+---------- Standardization (Z-score normalization)
 
 It is a technique where are the values are centered around the mean with a unit standard deviation (µ=0 and σ=1).
 
@@ -29,7 +29,9 @@ In machine learning, our aim is to improve model and accuracy scores. So for imp
 
 
 
----------- Normalization -> all to [0,1]
+---------- Normalization (Min-Max scaling) -> all to [0,1]
+
+Rescaled Value =  ( X - min(X) ) / (max(X) - min(X) )
 
 Normalization is a scaling technique in which values are shifted and rescaled so that they end up ranging between 0 and 1.
 
