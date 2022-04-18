@@ -1,0 +1,74 @@
+Normalization typically means rescales the values into a range of [0,1]. 
+Standardization typically means rescales data to have a mean of 0 and a standard deviation of 1 (unit variance).
+
+
+
+---------- Standardization
+
+It is a technique where are the values are centered around the mean with a unit standard deviation (µ=0 and σ=1).
+
+
+sklearn.preprocessing.StandardScaler uses a library that comes from sklearn for standardization.
+
+
+
+python code:
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X)
+
+X_scaling = scaler.transforming(X)
+
+
+Why Standardization is important in Machine Learning?
+In machine learning, our aim is to improve model and accuracy scores. So for improving scores and a good predictive model uses Standardization.
+
+
+
+
+
+
+---------- Normalization -> all to [0,1]
+
+Normalization is a scaling technique in which values are shifted and rescaled so that they end up ranging between 0 and 1.
+
+The goal of normalization is to change the values of numeric columns in the dataset to a common scale, without distorting differences in the ranges of values. 
+For machine learning, every dataset does not require normalization. It is required only when features have different ranges.
+ 
+For example, consider a data set containing two features, age(x1), and income(x2). 
+Where age ranges from 0–100, while income ranges from 0–20,000 and higher. Income is about 1,000 times larger than age and ranges from 20,000–500,000. 
+So, these two features are in very different ranges. When we do further analysis, like multivariate linear regression, for example, 
+the attributed income will intrinsically influence the result more due to its larger value. But this doesn’t necessarily mean it is more important as a predictor.
+
+
+python code:
+
+1.
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(X)
+
+X=scaler.transform(X)
+
+
+2.
+data_normalized = preprocessing.normalized(data,norm='l2')
+
+# norm{‘l1’, ‘l2’, ‘max’}, default=’l2’
+# The norm to use to normalize each non zero sample (or each non-zero feature if axis is 0).
+
+---------------------------- Standardization vs Normalization -----------------
+Normalization is good to use when you know that the distribution of your data does not follow a Gaussian distribution. 
+This can be useful in algorithms that do not assume any distribution of the data like K-Nearest Neighbors and Neural Networks.
+
+
+Standardization, on the other hand, can be helpful in cases where the data follows a Gaussian distribution. 
+However, this does not have to be necessarily true. Also, unlike normalization, standardization does not have a bounding range. 
+So, even if you have outliers in your data, they will not be affected by standardization.
+
+
+
+
+
+
