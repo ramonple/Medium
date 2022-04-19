@@ -1,0 +1,358 @@
+https://medium.com/python-in-plain-english/10-probability-distribution-that-every-data-scientist-should-know-d73bcfe248b0
+
+------ 1. Bernoulli distribution:
+
+Bernoulli distribution is a discrete probability distribution that takes value 1 with probability p and 0 of probability 1-p.
+
+Sample implementation using scipy.stats is below:
+
+from scipy.stats import bernoulli
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+p = 0.5
+
+x = [i for i in range(0,10)]
+# Sample according to Bernoulli distribution
+y = bernoulli.rvs(p, size=10)
+
+plt.plot(x,r, "ob")
+plt.show()
+
+
+
+
+----- 2. Binomial Distribution
+
+The binomial distribution is a generalization of the Bernoulli distribution.  
+It is also a discrete random variable taking value from 0 to n, where n is the number of experiments you performed.
+
+The probability of getting a number k is calculated by: (n k) p ^k * (1-p) ^(n-k)
+
+
+from scipy.stats import binom
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+p = 0.5
+n = 10
+x = [i for i in range(0,n)]
+
+# Sample according to Binomail distribution
+y = binom.rvs(n, p, size=10)
+
+plt.plot(x,y, "ob")
+
+
+
+
+---- 3. Multinomial Distribution
+
+As the name suggests, Multinomial distribution is related to binomial distribution: in fact, it is a generalization of the multinomial distribution.
+
+In Binomial distribution, we only have 2 possible outcomes. What if our experiments have multiple outcomes?
+the Multinomial distribution is like choosing a number randomly from 1,2,3 with the probability of p1, p2, p3=(1-p1-p2).
+the probability mass function looks like:
+ n! / x1! x2! .... xk! * p1^x1 * ... * pk^xk
+
+When k is 2 and n is 1, the multinomial distribution is the Bernoulli distribution. 
+When k is 2 and n is bigger than 1, it is the binomial distribution. When k is bigger than 2 and n is 1, it is the categorical distribution.
+
+ 
+from scipy.stats import multinomial
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+p = [0.3,0.2,0.5]
+n = 10
+x = [i for i in range(0,n)]
+
+# Sample according to multinomial distribution
+y = multinomial.rvs(n, p, size=10)
+
+plt.plot(x,y, "ob")
+plt.show()
+
+
+
+
+------ 4. Gaussian Distribution (Normal Distribtion)
+
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+import numpy as np
+
+x1 = np.arange(-20, 20, 0.1)
+
+# norm.pdf(x,loc,scale),the location(loc) keyword specifices the mean, the scale(scale) keyword specifies the std
+
+y1 = norm.pdf(x1, 0, 5)
+y2 = norm.pdf(x1, 0, 3)
+y3 = norm.pdf(x1, 5, 3)
+
+plt.plot(x1, y2) 
+plt.plot(x1, y1)
+plt.plot(x1, y3) 
+
+plt.legend(["Standard deviation 3", "Standard deviation 5", "mean value of 5"], loc ="upper left")
+plt.show()
+
+
+
+
+
+------ 5. Possion Distribution
+
+Poisson distribution is a discrete distribution that describes the number of events occurring in a fixed time given how often do those events happen on average.
+
+
+from scipy.stats import poisson
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+mu = 2
+n = 100
+x = [i for i in range(0,n)]
+
+# Sample according to Binomail distribution
+y = poisson.rvs(mu, size=n)
+
+plt.plot(x,y, "ob")
+plt.show()
+
+
+The code above simulates how many occurrences you are going to get if your average is 2 occurrences per unit of time.
+
+
+
+
+------- 6.  Exponential Distribution
+
+The exponential distribution is actually the dual Poisson distribution. 
+
+In Exponential distribution, we are interested the value of waiting time until the next occurrence, rather than the number of occurrences. 
+
+
+
+
+from scipy.stats import expon
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+mu = 2
+n = 100
+x = [i for i in range(0,n)]
+
+# Sample according to Binomail distribution
+y = expon.rvs(scale=2, size=n)
+
+plt.plot(x,y, "ob")
+plt.show()
+
+
+
+Here, on average, we will wait 2 minutes on average, and we will see our waiting time in the future 100 waits for the bus.
+
+
+
+
+
+----- 7. Beta Distribution
+
+Beta distribution is a continued-random variable distribution over internal [0,1].
+It has two parameters α and β. α and β, just like the mean and standard deviation in Gaussian distribution, control the shape of the distribution. 
+
+The beta distribution is often used in Bayesian inference as the prior distribution. 
+
+
+
+from scipy.stats import beta
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+a = 2
+b = 3
+n = 100
+x = [i for i in range(0,n)]
+
+# Sample according to Beta distribution
+y = beta.rvs(a, b, size=n)
+
+plt.plot(x,y, "ob")
+plt.show()
+
+
+
+
+
+----- 8. Gamma Distribution
+
+Like Beta distribution, Gamma distribution is also two-parameter continuous probability distribution, and it is also a good model for prior distribution. 
+It is a conjugate prior function for many distributions: Gaussian distribution, Poisson distribution, etc. 
+
+
+
+
+from scipy.stats import gamma
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+a = 2
+b = 3
+n = 100
+x = [i for i in range(0,n)]
+
+# Sample according to Gamma distribution
+y = gamma.rvs(a, b, size=n)
+
+plt.plot(x,y, "ob")
+plt.show()
+view raw
+
+
+
+
+
+
+-----9. Chi-Squared Distribution:
+
+The Chi-squared distribution belongs to one of the most important and well-known distributions for data scientists and statisticians.
+
+ It shows up in numerous statistical settings: 
+ a. Chi-squared test for independence 
+ b. Chi-squared for quality of fit between data and proposed distribution
+ c. likelihood ratio test
+ etc. 
+
+
+It is a continuous probability distribution on [0, infinity), and is also a special instance of Gamma distribution.
+
+
+
+
+
+from scipy.stats import chi2
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+df1 = 10
+df2 = 20
+df3 = 30
+df4 = 40
+df5 = 50
+
+# calculate range we want to display
+x = np.linspace(0,
+                30, 500)
+
+# Sample according to chi2 distribution
+rv1 = chi2(df1)
+rv2 = chi2(df2)
+rv3 = chi2(df3)
+rv4 = chi2(df4)
+rv5 = chi2(df5)
+
+plt.plot(x, rv1.pdf(x), 'r', label='df = 10')
+plt.plot(x, rv2.pdf(x), 'g',label='df = 20')
+plt.plot(x, rv3.pdf(x), 'b', label='df = 30')
+plt.plot(x, rv4.pdf(x), 'black',label='df = 40')
+plt.plot(x, rv5.pdf(x), 'yellow',label='df = 50')
+plt.legend(loc="upper left")
+
+plt.show()
+
+
+
+
+Another thing often used by data scientists is the Chi-square test, especially used to calculate the fitness of sampling data given proposed distribution or independence test. 
+In scipy.stats , we can easily compute the Chi-squared test statistic by scipy.stats.chisquare(your_sample, expected_distribution) . 
+It is super easy to use!
+
+
+scipy.stats.chisquare
+# calculate a one-way chi2 test
+
+
+
+
+----- 10. student t-distribution
+
+
+
+from scipy.stats import t
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+# Specified probability parameter
+df1 = 1
+df2 = 2
+df3 = 3
+df4 = 4
+
+# calculate range we want to display
+x = np.linspace(-10,
+                10, 200)
+
+# Sample according to t distribution
+rv1 = t(df1)
+rv2 = t(df2)
+rv3 = t(df3)
+rv4 = t(df4)
+
+plt.plot(x, rv1.pdf(x), 'r', label='df = 10')
+plt.plot(x, rv2.pdf(x), 'g',label='df = 20')
+plt.plot(x, rv3.pdf(x), 'b', label='df = 30')
+plt.plot(x, rv4.pdf(x), 'black',label='df = 40')
+plt.plot(x, norm.pdf(x), 'yellow', label='Gaussian')
+plt.legend(loc="upper left")
+
+plt.show()
+
+
+
+
+
+
+Just as in the Chi-square distribution, we can also do a t-test using Python.
+
+
+from scipy import stats
+
+seed = np.random.default_rng()
+
+# Ground truth: sampling from same distribution
+rvs1 = stats.norm.rvs(loc=5, scale=10, size=500, random_state=seed)
+rvs2 = stats.norm.rvs(loc=5, scale=10, size=500, random_state=seed)
+print(stats.ttest_ind(rvs1, rvs2))
+
+# Sample response, it varies a lot
+# Cannot say any thing definite from result given p value
+# Ttest_indResult(statistic=-0.7362272777889193, pvalue=0.46176540317360304)
+
+
+
+rvs3 = stats.norm.rvs(loc=0, scale=10, size=500, random_state=seed)
+print(stats.ttest_ind(rvs1, rvs3))
+# Sample response, it varies a lot
+# We can say with a lot of confidence two data are not from same distribution
+# Ttest_indResult(statistic=8.065543453125999, pvalue=2.078369795336982e-15)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
