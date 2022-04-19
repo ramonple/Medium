@@ -90,6 +90,7 @@ print(conclusion)
 
 
 
+np.random.seed(10)
 
 
 
