@@ -3,9 +3,144 @@ https://towardsdatascience.com/chi-square-test-with-python-d8ba98117626
 https://www.reneshbedre.com/blog/chi-square-test.html
 
 
+Chi-square test is a non-parametric (distribution-free) method used to compare the relationship between the two categorical (nominal) variables in a contingency table.
 
 
 
+
+The χ2 distribution curve is right-skewed and as the number of degrees of freedom becomes larger, 
+the χ2 curve will more similar to the normal distribution.
+
+
+
+----------------------------------------------------------------------------------------------------
+A: χ2 test of Independence
+
+H₀: The two categorical variables have no relationship
+H₁: There is a relationship between two categorical variables
+
+The number of degrees of freedom of the χ2 independence test statistics:
+d.f. = (# rows -1) *(#columns-1)
+
+
+χ2 = sum ( O - E ) ^ 2 / E  ~ χ2 (r-1) (c-1)
+
+
+
+
+
+import pandas as pd
+import scipy.stats as stats
+
+# create sample data according to survey
+data = [['18-29', 'Conservative'] for i in range(141)] + \
+        [['18-29', 'Socialist'] for i in range(68)] + \
+        [['18-29', 'Other'] for i in range(4)] + \
+        [['30-44', 'Conservative'] for i in range(179)] + \
+        [['30-44', 'Socialist'] for i in range(159)] + \
+        [['30-44', 'Other'] for i in range(7)] + \
+        [['45-65', 'Conservative'] for i in range(220)] + \
+        [['45-65', 'Socialist'] for i in range(216)] + \
+        [['45-65', 'Other'] for i in range(4)] + \
+        [['65 & older', 'Conservative'] for i in range(86)] + \
+        [['65 & older', 'Socialist'] for i in range(101)] + \
+        [['65 & older', 'Other'] for i in range(4)]
+df = pd.DataFrame(data, columns = ['Age Group', 'Political Affiliation']) 
+
+# create contingency table
+data_crosstab = pd.crosstab(df['Age Group'],
+                            df['Political Affiliation'],
+                           margins=True, margins_name="Total")
+
+# significance level
+alpha = 0.05
+
+# Calcualtion of Chisquare
+chi_square = 0
+rows = df['Age Group'].unique()
+columns = df['Political Affiliation'].unique()
+
+for i in columns:
+    for j in rows:
+        O = data_crosstab[i][j]
+        E = data_crosstab[i]['Total'] * data_crosstab['Total'][j] / data_crosstab['Total']['Total']
+        chi_square += (O-E)**2/E
+
+# The p-value approach
+print("Approach 1: The p-value approach to hypothesis testing in the decision rule")
+p_value = 1 - stats.chi2.cdf(chi_square, (len(rows)-1)*(len(columns)-1))
+conclusion = "Failed to reject the null hypothesis."
+if p_value <= alpha:
+    conclusion = "Null Hypothesis is rejected."
+        
+print("chisquare-score is:", chi_square, " and p value is:", p_value)
+print(conclusion)
+    
+# The critical value approach
+print("\n--------------------------------------------------------------------------------------")
+print("Approach 2: The critical value approach to hypothesis testing in the decision rule")
+critical_value = stats.chi2.ppf(1-alpha, (len(rows)-1)*(len(columns)-1))
+conclusion = "Failed to reject the null hypothesis."
+if chi_square > critical_value:
+    conclusion = "Null Hypothesis is rejected."
+        
+print("chisquare-score is:", chi_square, " and critical value is:", critical_value)
+print(conclusion)
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+B: χ2 Goodness-Of-Fit Test
+
+H₀: The variable has the specified distribution, normal
+H₁: The variable does not have the specified distribution, not normal
+
+The number of degrees of freedom of the χ2 Goodness-Of-Fit test statistics:
+d.f. = (# categories -1)
+
+It compares the observed frequencies O of a sample with the expected frequencies E.
+E = probability of the event * total sample size
+
+
+
+
+# Creation of data
+data = [['CDU', 0.415, 57], ['SPD', 0.257, 26], ['Others', 0.328, 40]] 
+df = pd.DataFrame(data, columns = ['Varname', 'prob_dist', 'observed_freq']) 
+df['expected_freq'] = df['observed_freq'].sum() * df['prob_dist']
+
+# significance level
+alpha = 0.05
+
+# Calcualtion of Chisquare
+chi_square = 0
+for i in range(len(df)):
+    O = df.loc[i, 'observed_freq']
+    E = df.loc[i, 'expected_freq']
+    chi_square += (O-E)**2/E
+
+# The p-value approach
+print("Approach 1: The p-value approach to hypothesis testing in the decision rule")
+p_value = 1 - stats.chi2.cdf(chi_square, df['Varname'].nunique() - 1)
+conclusion = "Failed to reject the null hypothesis."
+if p_value <= alpha:
+    conclusion = "Null Hypothesis is rejected."
+        
+print("chisquare-score is:", chi_square, " and p value is:", p_value)
+print(conclusion)
+    
+# The critical value approach
+print("\n--------------------------------------------------------------------------------------")
+print("Approach 2: The critical value approach to hypothesis testing in the decision rule")
+critical_value = stats.chi2.ppf(1-alpha, df['Varname'].nunique() - 1)
+conclusion = "Failed to reject the null hypothesis."
+if chi_square > critical_value:
+    conclusion = "Null Hypothesis is rejected."
+        
+print("chisquare-score is:", chi_square, " and critical value is:", critical_value)
+print(conclusion)
 
 
 
