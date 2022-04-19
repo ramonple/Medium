@@ -5,12 +5,12 @@ https://www.reneshbedre.com/blog/chi-square-test.html
 
 Chi-square test is a non-parametric (distribution-free) method used to compare the relationship between the two categorical (nominal) variables in a contingency table.
 
-
+Chi-squared tests are based on the so-called chi-squared statistic. You calculate the chi-squared statistic with the following formula:
+sum (  (observed-expected)^2/ expected )
 
 
 The χ2 distribution curve is right-skewed and as the number of degrees of freedom becomes larger, 
 the χ2 curve will more similar to the normal distribution.
-
 
 
 ----------------------------------------------------------------------------------------------------
@@ -91,6 +91,19 @@ print(conclusion)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 B: χ2 Goodness-Of-Fit Test
 
@@ -102,7 +115,6 @@ d.f. = (# categories -1)
 
 It compares the observed frequencies O of a sample with the expected frequencies E.
 E = probability of the event * total sample size
-
 
 
 
@@ -121,26 +133,64 @@ for i in range(len(df)):
     E = df.loc[i, 'expected_freq']
     chi_square += (O-E)**2/E
 
-# The p-value approach
+1. 
+# The p-value approach -> 1 - stats.chi.cdf()
+
 print("Approach 1: The p-value approach to hypothesis testing in the decision rule")
-p_value = 1 - stats.chi2.cdf(chi_square, df['Varname'].nunique() - 1)
+p_value = 1 - stats.chi2.cdf(chi_square, df['Varname'].nunique() - 1)      # stats.chi2.cdf(x=chi_sqaure_stat # ind the p-value , df =
+
 conclusion = "Failed to reject the null hypothesis."
 if p_value <= alpha:
     conclusion = "Null Hypothesis is rejected."
         
 print("chisquare-score is:", chi_square, " and p value is:", p_value)
 print(conclusion)
-    
+ 
+ 
+2. 
 # The critical value approach
 print("\n--------------------------------------------------------------------------------------")
 print("Approach 2: The critical value approach to hypothesis testing in the decision rule")
-critical_value = stats.chi2.ppf(1-alpha, df['Varname'].nunique() - 1)
+
+critical_value = stats.chi2.ppf(1-alpha, df['Varname'].nunique() - 1)   # stats.chi2.ppf(1-alpha, df), where df = number of variable category - 1
+
 conclusion = "Failed to reject the null hypothesis."
 if chi_square > critical_value:
     conclusion = "Null Hypothesis is rejected."
         
 print("chisquare-score is:", chi_square, " and critical value is:", critical_value)
 print(conclusion)
+
+
+
+
+3. All automatic
+
+You can carry out a chi-squared goodness-of-fit test automatically using the scipy function scipy.stats.chisquare()
+
+stats.chisquare(f_obs = observed, f_exo = expected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
