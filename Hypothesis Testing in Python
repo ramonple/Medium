@@ -1,0 +1,92 @@
+https://medium.com/towards-data-science/an-interactive-guide-to-hypothesis-testing-in-python-979f4d62d85
+
+T-Test, ANOVA, Chi-Squared Test with Examples
+
+
+
+
+4 Steps in Hypothesis Testing
+
+---- Step 1: Define null and althernative hypothesis
+
+
+---- Step 2: Choose the appropriate statistic test
+
+T-test: compare two groups/categories of numeric variables with small sample size
+
+ANOVA test: compare the difference between two or more groups/categories of numeric variables
+
+Chi-Squared test: examine the relationship between two categorical variables
+
+Correlation test: examine the relationship between two numeric variables
+
+
+
+---- Step 3: Calculate the p-value
+
+
+---- Step 4: Determine the statistical significance
+
+
+
+----------------------------------------------------------------------------------------------------------------
+
+T-test
+T-test is used when we want to test the relationship between a numeric variable and a categorical variable.
+There are three main types of t-test.
+
+1. one sample t-test: test the mean of one group against a constant value
+2. two sample t-test: test the difference of means between two groups
+3. paired sample t-test: test the difference of means between two measurements of the same subject
+
+
+sns.displot()
+stats.ttest_ind()
+
+
+t_stat,pvalue = ttest_ind(recency_P,recency_N)
+
+----------------------------------------------------------------------------------------------------------------
+ANOVA test
+ANOVA stands for analysis of variance. It is used to compare the mean between several groups.
+
+ANOVA examines the difference among groups by calculating the ratio of variance across groups vs variance within a group.
+
+degree of freedom, total sample (n) and the number of groups (k)
+n-k
+
+The only difference between one-way and two-way ANOVA is the number of independent variables. 
+A one-way ANOVA has one independent variable, while a two-way ANOVA has two.
+
+
+The One-way ANOVA is extension of independent samples t test. 
+In independent samples t test used to compare the means between two independent groups, 
+whereas in one-way ANOVA, means are compared among three or more independent groups).
+
+
+sns.boxplot()
+stats.f_oneway()
+
+
+calculate the p-value:
+
+x = np.linspace(rv.ppf(0.0001), rv.ppf(0.9999), 100000)
+y = rv.pdf(x)
+pvalue = 1 - rv.cdf(x)
+
+
+----------------------------------------------------------------------------------------------------------------
+Chi-Squred Test
+Chi-Squared test is for testing the relationship between two categorical variables.
+
+sns.sns.barplot()
+stats.chi2_contingency()
+
+
+calculate the p-value: p value is calculated as the right tail cumulative area: 
+1-rv.cdf(chi2_statistics)
+
+
+
+
+
